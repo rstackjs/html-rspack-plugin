@@ -11,6 +11,7 @@
     "typings.d.ts"
   ],
   "scripts": {
+    "bump": "npx bumpp",
     "posttest": "tsc",
     "commit": "git-cz",
     "build-examples": "node examples/build-examples.js",
