@@ -87,10 +87,10 @@ You can pass a hash of configuration options to `html-rspack-plugin`. Allowed va
 | :-: | :-: | :-: | :-- |
 | **`title`** | `{String}` | `Rspack App` | The title to use for the generated HTML document |
 | **`filename`** | `{String\|Function}` | `'index.html'` | The file to write the HTML to. Defaults to `index.html`. You can specify a subdirectory here too (eg: `assets/admin.html`). The `[name]` placeholder will be replaced with the entry name. Can also be a function e.g. `(entryName) => entryName + '.html'`. |
-| **`template`** | `{String}` | `` | Rspack relative or absolute path to the template. By default it will use `src/index.ejs` if it exists. Please see the [docs](https://github.com/rspack-contrib/html-rspack-plugin/blob/master/docs/template-option.md) for details |
-| **`templateContent`** | `{string\|Function\|false}` | false | Can be used instead of `template` to provide an inline template - please read the [Writing Your Own Templates](https://github.com/rspack-contrib/html-rspack-plugin#writing-your-own-templates) section |
-| **`templateParameters`** | `{Boolean\|Object\|Function}` | `false` | Allows to overwrite the parameters used in the template - see [example](https://github.com/rspack-contrib/html-rspack-plugin/tree/master/examples/template-parameters) |
-| **`inject`** | `{Boolean\|String}` | `true` | `true \|\| 'head' \|\| 'body' \|\| false` Inject all assets into the given `template` or `templateContent`. When passing `'body'` all javascript resources will be placed at the bottom of the body element. `'head'` will place the scripts in the head element. Passing `true` will add it to the head/body depending on the `scriptLoading` option. Passing `false` will disable automatic injections. - see the [inject:false example](https://github.com/rspack-contrib/html-rspack-plugin/tree/master/examples/custom-insertion-position) |
+| **`template`** | `{String}` | `` | Rspack relative or absolute path to the template. By default it will use `src/index.ejs` if it exists. Please see the [docs](https://github.com/rstackjs/html-rspack-plugin/blob/master/docs/template-option.md) for details |
+| **`templateContent`** | `{string\|Function\|false}` | false | Can be used instead of `template` to provide an inline template - please read the [Writing Your Own Templates](https://github.com/rstackjs/html-rspack-plugin#writing-your-own-templates) section |
+| **`templateParameters`** | `{Boolean\|Object\|Function}` | `false` | Allows to overwrite the parameters used in the template - see [example](https://github.com/rstackjs/html-rspack-plugin/tree/master/examples/template-parameters) |
+| **`inject`** | `{Boolean\|String}` | `true` | `true \|\| 'head' \|\| 'body' \|\| false` Inject all assets into the given `template` or `templateContent`. When passing `'body'` all javascript resources will be placed at the bottom of the body element. `'head'` will place the scripts in the head element. Passing `true` will add it to the head/body depending on the `scriptLoading` option. Passing `false` will disable automatic injections. - see the [inject:false example](https://github.com/rstackjs/html-rspack-plugin/tree/master/examples/custom-insertion-position) |
 | **`publicPath`** | `{String\|'auto'}` | `'auto'` | The publicPath used for script and link tags |
 | **`scriptLoading`** | `{'blocking'\|'defer'\|'module'\|'systemjs-module'}` | `'defer'` | Modern browsers support non blocking javascript loading (`'defer'`) to improve the page startup performance. Setting to `'module'` adds attribute [`type="module"`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#applying_the_module_to_your_html). This also implies "defer", since modules are automatically deferred. |
 | **`favicon`** | `{String}` | `` | Adds the given favicon path to the output HTML |
@@ -152,7 +152,7 @@ To generate more than one HTML file, declare the plugin more than once in your p
 
 If the default generated HTML doesn't meet your needs you can supply your own template. The easiest way is to use the `template` option and pass a custom HTML file. The html-rspack-plugin will automatically inject all necessary CSS, JS and favicon files into the markup.
 
-Details of other template loaders are [documented here](https://github.com/rspack-contrib/html-rspack-plugin/blob/master/docs/template-option.md).
+Details of other template loaders are [documented here](https://github.com/rstackjs/html-rspack-plugin/blob/master/docs/template-option.md).
 
 ```js
 plugins: [
@@ -419,9 +419,9 @@ Refer Rspack's [Template Strings](https://www.rspack.dev/config/output#template-
 
 To allow other plugin to alter the HTML this plugin executes tapable hooks.
 
-The [lib/hooks.js](https://github.com/rspack-contrib/html-rspack-plugin/blob/master/lib/hooks.js) contains all information about which values are passed.
+The [lib/hooks.js](https://github.com/rstackjs/html-rspack-plugin/blob/master/lib/hooks.js) contains all information about which values are passed.
 
-[![Concept flow uml](https://raw.githubusercontent.com/rspack-contrib/html-rspack-plugin/master/flow.png)](https://github.com/rspack-contrib/html-rspack-plugin/blob/master/flow.puml)
+[![Concept flow uml](https://raw.githubusercontent.com/rstackjs/html-rspack-plugin/master/flow.png)](https://github.com/rstackjs/html-rspack-plugin/blob/master/flow.puml)
 
 #### `beforeAssetTagGeneration` hook
 
@@ -537,4 +537,4 @@ Note that the callback must be passed the HtmlRspackPluginData in order to pass 
 
 This project exists thanks to all the people who contribute.
 
-You're free to contribute to this project by submitting [issues](https://github.com/rspack-contrib/html-rspack-plugin/issues) and/or [pull requests](https://github.com/rspack-contrib/html-rspack-plugin/pulls). This project is test-driven, so keep in mind that every change and new feature should be covered by tests.
+You're free to contribute to this project by submitting [issues](https://github.com/rstackjs/html-rspack-plugin/issues) and/or [pull requests](https://github.com/rstackjs/html-rspack-plugin/pulls). This project is test-driven, so keep in mind that every change and new feature should be covered by tests.

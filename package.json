@@ -57,9 +57,9 @@
     "html",
     "html-rspack-plugin"
   ],
-  "bugs": "https://github.com/rspack-contrib/html-rspack-plugin/issues",
-  "homepage": "https://github.com/rspack-contrib/html-rspack-plugin",
-  "repository": "https://github.com/rspack-contrib/html-rspack-plugin.git",
+  "bugs": "https://github.com/rstackjs/html-rspack-plugin/issues",
+  "homepage": "https://github.com/rstackjs/html-rspack-plugin",
+  "repository": "https://github.com/rstackjs/html-rspack-plugin.git",
   "engines": {
     "node": ">=16.0.0"
   },
