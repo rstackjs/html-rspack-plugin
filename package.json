@@ -1,6 +1,6 @@
 {
   "name": "html-rspack-plugin",
-  "version": "6.1.4",
+  "version": "6.1.5",
   "license": "MIT",
   "description": "Simplifies creation of HTML files to serve your Rspack bundles",
   "author": "Jan Nicklas <j.nicklas@me.com> (https://github.com/jantimon)",
