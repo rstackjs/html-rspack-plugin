@@ -37,7 +37,7 @@
     "raw-loader": "4.0.2",
     "rimraf": "^4.4.1",
     "standard-version": "^9.3.0",
-    "style-loader": "2.0.0",
+    "style-loader": "4.0.0",
     "typescript": "5.9.3",
     "webpack": "^5.96.1",
     "webpack-cli": "6.0.1",
