@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.17.5",
-    "css-loader": "5.2.7",
+    "css-loader": "7.1.4",
     "dir-compare": "^3.3.0",
     "html-loader": "2.1.2",
     "jest": "^27.5.1",
