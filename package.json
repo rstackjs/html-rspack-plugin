@@ -20,18 +20,18 @@
     "puml": "npx puml generate flow.puml -o flow.png",
     "release": "standard-version"
   },
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.30.3",
   "dependencies": {
-    "@rspack/lite-tapable": "^1.0.1"
+    "@rspack/lite-tapable": "^1.1.0"
   },
   "devDependencies": {
-    "@types/node": "^20.17.5",
+    "@types/node": "^20.19.35",
     "css-loader": "5.2.7",
     "dir-compare": "^3.3.0",
     "html-loader": "2.1.2",
     "jest": "^27.5.1",
-    "lodash": "^4.17.21",
-    "prettier": "^3.3.3",
+    "lodash": "^4.17.23",
+    "prettier": "^3.8.1",
     "pug": "3.0.3",
     "pug-loader": "2.4.0",
     "raw-loader": "4.0.2",
@@ -39,7 +39,7 @@
     "standard-version": "^9.3.0",
     "style-loader": "2.0.0",
     "typescript": "5.9.3",
-    "webpack": "^5.96.1",
+    "webpack": "^5.105.3",
     "webpack-cli": "6.0.1",
     "webpack-recompilation-simulator": "3.2.0"
   },
@@ -61,7 +61,7 @@
   "homepage": "https://github.com/rstackjs/html-rspack-plugin",
   "repository": "https://github.com/rstackjs/html-rspack-plugin.git",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.20.2"
   },
   "jest": {
     "watchPathIgnorePatterns": [
