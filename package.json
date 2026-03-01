@@ -25,7 +25,7 @@
     "@rspack/lite-tapable": "^1.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.17.5",
+    "@types/node": "^24.11.0",
     "css-loader": "5.2.7",
     "dir-compare": "^3.3.0",
     "html-loader": "2.1.2",
@@ -61,7 +61,7 @@
   "homepage": "https://github.com/rstackjs/html-rspack-plugin",
   "repository": "https://github.com/rstackjs/html-rspack-plugin.git",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=24.14.0"
   },
   "jest": {
     "watchPathIgnorePatterns": [
