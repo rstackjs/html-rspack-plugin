@@ -20,7 +20,7 @@
     "puml": "npx puml generate flow.puml -o flow.png",
     "release": "standard-version"
   },
-  "packageManager": "pnpm@10.30.3",
+  "packageManager": "pnpm@10.31.0",
   "dependencies": {
     "@rspack/lite-tapable": "^1.1.0"
   },
