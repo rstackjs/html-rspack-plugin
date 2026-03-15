@@ -20,7 +20,7 @@
     "puml": "npx puml generate flow.puml -o flow.png",
     "release": "standard-version"
   },
-  "packageManager": "pnpm@10.31.0",
+  "packageManager": "pnpm@10.32.1",
   "dependencies": {
     "@rspack/lite-tapable": "^1.1.0"
   },
@@ -32,7 +32,7 @@
     "jest": "^27.5.1",
     "lodash": "^4.17.23",
     "prettier": "^3.8.1",
-    "pug": "3.0.3",
+    "pug": "3.0.4",
     "pug-loader": "2.4.0",
     "raw-loader": "4.0.2",
     "rimraf": "^4.4.1",
