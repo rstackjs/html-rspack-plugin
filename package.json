@@ -16,13 +16,16 @@
     "commit": "git-cz",
     "build-examples": "node examples/build-examples.js",
     "test": "jest --runInBand --verbose --coverage",
-    "test-watch": "jest --runInBand --watch"
+    "test-watch": "jest --runInBand --watch",
+    "lint": "rslint",
+    "lint:write": "rslint --fix"
   },
   "packageManager": "pnpm@10.33.2",
   "dependencies": {
     "@rspack/lite-tapable": "^1.1.0"
   },
   "devDependencies": {
+    "@rslint/core": "^0.5.1",
     "@types/node": "^20.19.39",
     "css-loader": "7.1.4",
     "dir-compare": "^5.0.0",
