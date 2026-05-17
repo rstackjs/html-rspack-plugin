@@ -23,7 +23,7 @@ importers:
         version: 20.19.40
       css-loader:
         specifier: 7.1.4
-        version: 7.1.4(@rspack/core@1.7.2)(webpack@5.106.2)
+        version: 7.1.4(webpack@5.106.2)
       dir-compare:
         specifier: ^5.0.0
         version: 5.0.0
@@ -3176,7 +3176,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-loader@7.1.4(@rspack/core@1.7.2)(webpack@5.106.2):
+  css-loader@7.1.4(webpack@5.106.2):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.8)
       postcss: 8.5.8
@@ -3187,7 +3187,6 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.7.4
     optionalDependencies:
-      '@rspack/core': 1.7.2
       webpack: 5.106.2(webpack-cli@7.0.2)
 
   cssesc@3.0.0: {}
