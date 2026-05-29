@@ -20,7 +20,7 @@
     "lint": "rslint",
     "lint:write": "rslint --fix"
   },
-  "packageManager": "pnpm@11.2.2",
+  "packageManager": "pnpm@11.3.0",
   "dependencies": {
     "@rspack/lite-tapable": "^1.1.0"
   },
