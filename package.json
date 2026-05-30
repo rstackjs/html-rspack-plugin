@@ -12,6 +12,7 @@
   ],
   "scripts": {
     "bump": "npx bumpp",
+    "build": "echo \"No build required\"",
     "posttest": "tsc",
     "commit": "git-cz",
     "build-examples": "node examples/build-examples.js",
