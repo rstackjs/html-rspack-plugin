@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@rspack/core':
-        specifier: ^1.0.0 || ^2.0.0-0
+        specifier: ^1.0.0 || ^2.0.0
         version: 1.7.2
       '@rspack/lite-tapable':
         specifier: ^1.1.0
@@ -848,7 +848,7 @@ packages:
     resolution: {integrity: sha512-vv3J9tlOl04WjiMvHQI/9tmIrCxVrj6PFbHemBB1iihpeRbi/I4h033eoFIhwxBBqLhI0KYFS7yvynBFhIZfTw==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
-      '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
+      '@rspack/core': 0.x || ^1.0.0 || ^2.0.0
       webpack: ^5.27.0
     peerDependenciesMeta:
       '@rspack/core':
