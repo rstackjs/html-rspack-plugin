@@ -171,7 +171,7 @@ declare namespace HtmlRspackPlugin {
   /**
    * The plugin options after adding default values
    */
-  interface ProcessedOptions extends Required<Options> {}
+  type ProcessedOptions = Required<Options>;
 
   /**
    * The values which are available during template execution

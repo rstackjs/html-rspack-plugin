@@ -16,14 +16,14 @@ importers:
         version: 1.1.1
     devDependencies:
       '@rslint/core':
-        specifier: ^0.5.3
-        version: 0.5.3
+        specifier: ^0.6.1
+        version: 0.6.1
       '@types/node':
         specifier: ^24.12.4
         version: 24.12.4
       css-loader:
         specifier: 7.1.4
-        version: 7.1.4(@rspack/core@1.7.2)(webpack@5.107.2)
+        version: 7.1.4(webpack@5.107.2)
       dir-compare:
         specifier: ^5.0.0
         version: 5.0.0
@@ -351,8 +351,8 @@ packages:
   '@napi-rs/wasm-runtime@1.0.7':
     resolution: {integrity: sha512-SeDnOO0Tk7Okiq6DbXmmBODgOAb9dp9gjlphokTUxmt8U3liIP1ZsozBahH69j/RJv+Rfs6IwUKHTgQYJ/HBAw==}
 
-  '@rslint/core@0.5.3':
-    resolution: {integrity: sha512-7s7Yb9L0mwI2sl06G5HTI7ENd1iJiGYFVWbHjeJbXa7bLM5rPwkgWsYMRZo4kYQIYqpqD4Oqraor+zawEcunkw==}
+  '@rslint/core@0.6.1':
+    resolution: {integrity: sha512-UTc2kp3ERxjwkLUBsGMRjuI95K8Ws4xbIriYTrGZ2BAnLHg6BwqWli/sTBWiMAEtefWe/5Vu2ejLwcgV1F3QSA==}
     hasBin: true
     peerDependencies:
       jiti: ^2.0.0
@@ -360,35 +360,52 @@ packages:
       jiti:
         optional: true
 
-  '@rslint/darwin-arm64@0.5.3':
-    resolution: {integrity: sha512-g/VSIw1/slkvQsNRbHpImAip/sCjEaqE/Z5ZE6plL7GXdeztWckSevu+J5v07JmILvebJ7ZUgFvMw/ydTdxofw==}
+  '@rslint/native-darwin-arm64@0.6.1':
+    resolution: {integrity: sha512-Xt6gkSIztk8l7O1O0YXZ8X6kjEhaQvm9MplkDJR24RRSuALVw4Pzc9Z3ASjEbv4xnkuvPQLNQZg7/M3v274uNw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@rslint/darwin-x64@0.5.3':
-    resolution: {integrity: sha512-+29fPLRjkNVQW7DAtgNkQH6rYg1CdjJYHhBhRHT8TJWU8+N3GrhWjbxEvW9XThkABpDqsxAGS86wCE060QuRpQ==}
+  '@rslint/native-darwin-x64@0.6.1':
+    resolution: {integrity: sha512-LZ0AaqpF3wAFl3lfDM5P0YCGoavm8AN33Cy9Z5wD+N8Ffj+KR39QdmuWX6ZivPm0OPPw0xov6YDzDRCHvVtsbA==}
     cpu: [x64]
     os: [darwin]
 
-  '@rslint/linux-arm64@0.5.3':
-    resolution: {integrity: sha512-gpvnMVVP0wPe0T9qeITkaBB9WldxQPnJP8u314cG4sDyGV/qISKvUOPPk4AM3YG0f4UU7FA9gUySLptHLcDOFw==}
+  '@rslint/native-linux-arm64-gnu@0.6.1':
+    resolution: {integrity: sha512-H1jI8uEw4gdeEcD/zTn7xD0LWIJTfSyrhDnimN22xvKZ3ufo3EvTOs5t9alVns7xiGbxFeWnjPjwl/p6DI95AA==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
-  '@rslint/linux-x64@0.5.3':
-    resolution: {integrity: sha512-/ZzTWlZwi+Ff74tbnGYgLUc7YTDVsNuaL3EeZFuFIYk02Lge9UCCJywMExoLVTdhrZh7fRWu6nlS6sf1/okb8g==}
+  '@rslint/native-linux-arm64-musl@0.6.1':
+    resolution: {integrity: sha512-BbXisiQaJDgLwCXXIIKllbTDxtJoS33OEsk/zEQ2wvxSH52G9c/XLcoQaEgTa4Mc3XULgmPFfCdlNXQckeJQkg==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@rslint/native-linux-x64-gnu@0.6.1':
+    resolution: {integrity: sha512-ZQoxbBCxzSY1jnbt2jdyNaSFqGUmF2u69jqMS7v9VsYDod9JtSHb3Wnp71finz3KhslZExHXKqQQvGmdyC5cwA==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
-  '@rslint/win32-arm64@0.5.3':
-    resolution: {integrity: sha512-l5T5VeKQKjLMpUqahU/UDRV0UQcjvxN+r6bOSl+do0xCsYXpfEiI6HlE33//+VilJ120t2SI5e8Hnidaha3XEw==}
+  '@rslint/native-linux-x64-musl@0.6.1':
+    resolution: {integrity: sha512-6uKdu8KAnKdllZvKWInfD5pntdIik3+3p+vDUzcPeLlTgAv6qxT6MQZqGjVCRPa1XbnCamwbdp/zV7onuV79Ag==}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@rslint/native-win32-arm64-msvc@0.6.1':
+    resolution: {integrity: sha512-1TG5JCSkm/rzmUSTlBNrgLE14fxreXUZlC1TgzUWg8rjm6AJSVBKYntvC6c4SestXI33LKMOfnTb+dXd4DdZ8Q==}
     cpu: [arm64]
     os: [win32]
 
-  '@rslint/win32-x64@0.5.3':
-    resolution: {integrity: sha512-aPbtXTNeM9A5pA3krRzEaHGA6RLLkG5k8naNWGIfQnwfjMCk6vzjTyL6Wceg6Oq+qjTDnBLzU3RqZhpXwPeJ7w==}
+  '@rslint/native-win32-x64-msvc@0.6.1':
+    resolution: {integrity: sha512-LXhHXfzu4YjjqVbBC2tKyq1L7UVJqtbnSXyOXMhdaVNHRkHfuCjX3Us5uNe4/TbQdOIH7Qcfwzsj1/GpMYID+A==}
     cpu: [x64]
     os: [win32]
+
+  '@rslint/native@0.6.1':
+    resolution: {integrity: sha512-WR/tITtBCjxkBhpDRip4h6n+gxMMqqijFKmDjuc3O/ScWMrX+KbeKcnS0u1Y8e0YfoAmk7dHR9HIT+IRHod1IQ==}
 
   '@rspack/binding-darwin-arm64@1.7.2':
     resolution: {integrity: sha512-EsmfzNZnuEhVPMX5jWATCHT2UCCBh6iqq448xUMmASDiKVbIOhUTN1ONTV+aMERYl7BgMNJn0iTis6ot2GWKIg==}
@@ -1041,15 +1058,6 @@ packages:
 
   fb-watchman@2.0.2:
     resolution: {integrity: sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==}
-
-  fdir@6.5.0:
-    resolution: {integrity: sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      picomatch: ^3 || ^4
-    peerDependenciesMeta:
-      picomatch:
-        optional: true
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -2026,10 +2034,6 @@ packages:
   throat@6.0.2:
     resolution: {integrity: sha512-WKexMoJj3vEuK0yFEapj8y64V0A6xcuPuK9Gt1d0R+dzCSJc0lHqQytAbSB4cDAK0dWh4T0E2ETkoLE2WZ41OQ==}
 
-  tinyglobby@0.2.15:
-    resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
-    engines: {node: '>=12.0.0'}
-
   tmpl@1.0.5:
     resolution: {integrity: sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==}
 
@@ -2673,35 +2677,54 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@rslint/core@0.5.3':
+  '@rslint/core@0.6.1':
     dependencies:
+      '@rslint/native': 0.6.1
       picomatch: 4.0.4
-      tinyglobby: 0.2.15
     optionalDependencies:
-      '@rslint/darwin-arm64': 0.5.3
-      '@rslint/darwin-x64': 0.5.3
-      '@rslint/linux-arm64': 0.5.3
-      '@rslint/linux-x64': 0.5.3
-      '@rslint/win32-arm64': 0.5.3
-      '@rslint/win32-x64': 0.5.3
+      '@rslint/native-darwin-arm64': 0.6.1
+      '@rslint/native-darwin-x64': 0.6.1
+      '@rslint/native-linux-arm64-gnu': 0.6.1
+      '@rslint/native-linux-arm64-musl': 0.6.1
+      '@rslint/native-linux-x64-gnu': 0.6.1
+      '@rslint/native-linux-x64-musl': 0.6.1
+      '@rslint/native-win32-arm64-msvc': 0.6.1
+      '@rslint/native-win32-x64-msvc': 0.6.1
 
-  '@rslint/darwin-arm64@0.5.3':
+  '@rslint/native-darwin-arm64@0.6.1':
     optional: true
 
-  '@rslint/darwin-x64@0.5.3':
+  '@rslint/native-darwin-x64@0.6.1':
     optional: true
 
-  '@rslint/linux-arm64@0.5.3':
+  '@rslint/native-linux-arm64-gnu@0.6.1':
     optional: true
 
-  '@rslint/linux-x64@0.5.3':
+  '@rslint/native-linux-arm64-musl@0.6.1':
     optional: true
 
-  '@rslint/win32-arm64@0.5.3':
+  '@rslint/native-linux-x64-gnu@0.6.1':
     optional: true
 
-  '@rslint/win32-x64@0.5.3':
+  '@rslint/native-linux-x64-musl@0.6.1':
     optional: true
+
+  '@rslint/native-win32-arm64-msvc@0.6.1':
+    optional: true
+
+  '@rslint/native-win32-x64-msvc@0.6.1':
+    optional: true
+
+  '@rslint/native@0.6.1':
+    optionalDependencies:
+      '@rslint/native-darwin-arm64': 0.6.1
+      '@rslint/native-darwin-x64': 0.6.1
+      '@rslint/native-linux-arm64-gnu': 0.6.1
+      '@rslint/native-linux-arm64-musl': 0.6.1
+      '@rslint/native-linux-x64-gnu': 0.6.1
+      '@rslint/native-linux-x64-musl': 0.6.1
+      '@rslint/native-win32-arm64-msvc': 0.6.1
+      '@rslint/native-win32-x64-msvc': 0.6.1
 
   '@rspack/binding-darwin-arm64@1.7.2':
     optional: true
@@ -3188,7 +3211,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-loader@7.1.4(@rspack/core@1.7.2)(webpack@5.107.2):
+  css-loader@7.1.4(webpack@5.107.2):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.8)
       postcss: 8.5.8
@@ -3199,7 +3222,6 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.7.4
     optionalDependencies:
-      '@rspack/core': 1.7.2
       webpack: 5.107.2(postcss@8.5.8)(webpack-cli@7.0.3)
 
   cssesc@3.0.0: {}
@@ -3352,10 +3374,6 @@ snapshots:
   fb-watchman@2.0.2:
     dependencies:
       bser: 2.1.1
-
-  fdir@6.5.0(picomatch@4.0.4):
-    optionalDependencies:
-      picomatch: 4.0.4
 
   fill-range@7.1.1:
     dependencies:
@@ -4495,11 +4513,6 @@ snapshots:
       minimatch: 3.1.2
 
   throat@6.0.2: {}
-
-  tinyglobby@0.2.15:
-    dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
 
   tmpl@1.0.5: {}
 
