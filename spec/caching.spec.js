@@ -10,6 +10,7 @@ const webpack = require('webpack');
 const { rimraf } = require('rimraf');
 const WebpackRecompilationSimulator = require('webpack-recompilation-simulator');
 const HtmlWebpackPlugin = require('../lib/index.js');
+const itUnixOnly = process.platform === 'win32' ? it.skip : it;
 
 const OUTPUT_DIR = path.join(__dirname, '../dist/caching-spec');
 
@@ -242,7 +243,7 @@ describe('HtmlWebpackPluginCaching', () => {
       }).catch(done);
   });
 
-  it('should keep watching the webpack html if only a js file was changed', done => {
+  itUnixOnly('should keep watching the webpack html if only a js file was changed', done => {
     const template = path.join(__dirname, 'fixtures/plain.html');
     const jsFile = path.join(__dirname, 'fixtures/index.js');
     const htmlWebpackPlugin = new HtmlWebpackPlugin({

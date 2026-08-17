@@ -11,6 +11,7 @@ const webpack = require('webpack');
 const { rimraf } = require('rimraf');
 const WebpackRecompilationSimulator = require('webpack-recompilation-simulator');
 const HtmlWebpackPlugin = require('../lib/index.js');
+const describeUnixOnly = process.platform === 'win32' ? describe.skip : describe;
 
 const OUTPUT_DIR = path.join(__dirname, '../dist/caching-spec');
 
@@ -23,7 +24,7 @@ jest.setTimeout(30000);
 
 process.on('unhandledRejection', r => console.log(r));
 
-describe('HtmlWebpackPluginHMR', () => {
+describeUnixOnly('HtmlWebpackPluginHMR', () => {
   beforeEach(() => rimraf(OUTPUT_DIR));
 
   it('should not cause errors for the main compilation if hot-reload is active', () => {
