@@ -25,7 +25,7 @@
     "@rspack/lite-tapable": "^1.1.2"
   },
   "devDependencies": {
-    "@rslint/core": "^0.6.5",
+    "@rslint/core": "^0.8.0",
     "@types/node": "^24.13.3",
     "css-loader": "7.1.4",
     "dir-compare": "^5.0.0",
