@@ -1,4 +1,3 @@
 # custom template
 
-This example uses a custom underscore template which inlines an partial using the html-loader:
-`<%= require('html-loader!./partial.html').default %>`
+This example uses a custom template and passes a partial through `templateParameters`: `<%= partial %>`

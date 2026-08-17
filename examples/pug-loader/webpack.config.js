@@ -1,30 +1,31 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('../..');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var webpackMajorVersion = require('webpack/package.json').version.split('.')[0];
+var rspackMajorVersion = require('@rspack/core').rspackVersion.split('.')[0];
 
 module.exports = {
   context: __dirname,
   entry: './example.js',
   output: {
-    path: path.join(__dirname, 'dist/webpack-' + webpackMajorVersion),
+    path: path.join(__dirname, 'dist/rspack-' + rspackMajorVersion),
     publicPath: '',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     rules: [
-      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
+      { test: /\.css$/, type: 'css' },
       { test: /\.png$/, type: 'asset/resource' },
-      { test: /\.pug$/, loader: 'pug-loader' }
-    ]
+      { test: /\.pug$/, loader: 'pug-loader' },
+    ],
+  },
+  experiments: {
+    css: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       favicon: 'favicon.ico',
       template: 'template.pug',
-      title: 'pug demo'
+      title: 'pug demo',
     }),
-    new MiniCssExtractPlugin({ filename: 'styles.css' })
-  ]
+  ],
 };

@@ -1,13 +1,13 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('../..');
-var webpackMajorVersion = require('webpack/package.json').version.split('.')[0];
+var rspackMajorVersion = require('@rspack/core').rspackVersion.split('.')[0];
 module.exports = {
   context: __dirname,
   entry: './example.js',
   output: {
-    path: path.join(__dirname, 'dist/webpack-' + webpackMajorVersion),
+    path: path.join(__dirname, 'dist/rspack-' + rspackMajorVersion),
     publicPath: '',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -17,9 +17,9 @@ module.exports = {
       // demo purposes:
       meta: {
         charset: { charset: 'utf-8' },
-        viewport: 'width=device-width, initial-scale=1'
+        viewport: 'width=device-width, initial-scale=1',
       },
-      minify: false
-    })
-  ]
+      minify: false,
+    }),
+  ],
 };

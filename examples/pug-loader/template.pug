@@ -4,5 +4,5 @@ html
     title= htmlWebpackPlugin.options.title
   body
     #main
-      - locals.time = new Date('01 01, 1999');
+      - var time = new Date('1999-01-01');
       include ./time.pug

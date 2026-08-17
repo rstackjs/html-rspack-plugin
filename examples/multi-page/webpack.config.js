@@ -1,27 +1,30 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('../..');
-var webpackMajorVersion = require('webpack/package.json').version.split('.')[0];
+var rspackMajorVersion = require('@rspack/core').rspackVersion.split('.')[0];
 
 module.exports = {
   context: __dirname,
   entry: {
     first: './first.js',
-    second: './second.js'
+    second: './second.js',
   },
   output: {
-    path: path.join(__dirname, 'dist/webpack-' + webpackMajorVersion),
+    path: path.join(__dirname, 'dist/rspack-' + rspackMajorVersion),
     publicPath: '',
-    filename: '[name].js'
+    filename: '[name].js',
   },
   module: {
     rules: [
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.png$/, type: 'asset/resource' }
-    ]
+      { test: /\.css$/, type: 'css' },
+      { test: /\.png$/, type: 'asset/resource' },
+    ],
+  },
+  experiments: {
+    css: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: '[name].html'
-    })
-  ]
+      filename: '[name].html',
+    }),
+  ],
 };

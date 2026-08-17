@@ -1,7 +1,6 @@
 var path = require('path');
 var HtmlWebpackPlugin = require('../..');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var webpackMajorVersion = require('webpack/package.json').version.split('.')[0];
+var rspackMajorVersion = require('@rspack/core').rspackVersion.split('.')[0];
 module.exports = {
   context: __dirname,
   entry: {
@@ -9,19 +8,21 @@ module.exports = {
     d: './d.js',
     a: './a.js',
     c: './c.js',
-    e: './e.js'
+    e: './e.js',
   },
   output: {
-    path: path.join(__dirname, 'dist/webpack-' + webpackMajorVersion),
+    path: path.join(__dirname, 'dist/rspack-' + rspackMajorVersion),
     publicPath: '',
-    filename: '[name].js'
+    filename: '[name].js',
   },
   module: {
     rules: [
-      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
+      { test: /\.css$/, type: 'css' },
       { test: /\.png$/, type: 'asset/resource' },
-      { test: /\.html$/, loader: 'html-loader' }
-    ]
+    ],
+  },
+  experiments: {
+    css: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -29,15 +30,14 @@ module.exports = {
       filename: 'first-file.html',
       template: 'template.html',
       chunksSortMode: 'manual',
-      chunks: ['a', 'b', 'c']
+      chunks: ['a', 'b', 'c'],
     }),
     new HtmlWebpackPlugin({
       inject: true,
       filename: 'second-file.html',
       template: 'template.html',
       chunksSortMode: 'manual',
-      chunks: ['a', 'b', 'd']
+      chunks: ['a', 'b', 'd'],
     }),
-    new MiniCssExtractPlugin({ filename: 'styles.css' })
-  ]
+  ],
 };
