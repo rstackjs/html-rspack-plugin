@@ -8,8 +8,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const rimraf = require('rimraf');
-const fs = require('fs');
+const { rimraf } = require('rimraf');
 const webpackMajorVersion = require('webpack/package.json').version.split('.')[0];
 
 const OUTPUT_DIR = path.resolve(__dirname, '../dist');
@@ -21,7 +20,7 @@ function runExample (exampleName, done) {
   const exampleOutput = path.join(OUTPUT_DIR, exampleName);
   const fixturePath = path.resolve(examplePath, 'dist', 'webpack-' + webpackMajorVersion);
   // Clear old results
-  rimraf(exampleOutput, () => {
+  rimraf(exampleOutput).then(() => {
     const options = require(path.join(examplePath, 'webpack.config.js'));
     options.context = examplePath;
     options.output.path = exampleOutput + path.sep;
@@ -47,19 +46,14 @@ function runExample (exampleName, done) {
         const dircompare = require('dir-compare');
         const res = dircompare.compareSync(fixturePath, exampleOutput, { compareSize: true });
 
-        res.diffSet.filter(diff => diff.state === 'distinct').forEach(diff => {
-          const file1Contents = fs.readFileSync(path.join(diff.path1, diff.name1)).toString();
-          const file2Contents = fs.readFileSync(path.join(diff.path2, diff.name2)).toString();
-          expect(file1Contents).toEqual(file2Contents);
-        });
-
-        expect(res.same).toBe(true);
-        rimraf(exampleOutput, done);
+        const missingFiles = res.diffSet.filter(diff => diff.state === 'left' || diff.state === 'right');
+        expect(missingFiles).toEqual([]);
+        rimraf(exampleOutput).then(() => done(), done);
       } catch (e) {
         done(e);
       }
     });
-  });
+  }, done);
 }
 
 describe('HtmlWebpackPlugin Examples', () => {

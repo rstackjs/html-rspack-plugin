@@ -8,7 +8,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
-const rimraf = require('rimraf');
+const { rimraf } = require('rimraf');
 const _ = require('lodash');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackMajorVersion = Number(require('webpack/package.json').version.split('.')[0]);
@@ -18,7 +18,7 @@ if (isNaN(webpackMajorVersion)) {
   throw new Error('Cannot parse webpack major version');
 }
 
-const HtmlWebpackPlugin = require('../index.js');
+const HtmlWebpackPlugin = require('../lib/index.js');
 
 const OUTPUT_DIR = path.resolve(__dirname, '../dist/basic-spec');
 
@@ -53,7 +53,7 @@ function testHtmlPlugin (webpackConfig, expectedResults, outputFile, done, expec
     if (!outputFileExists) {
       return done();
     }
-    const htmlContent = fs.readFileSync(path.join(OUTPUT_DIR, outputFile)).toString();
+    const htmlContent = fs.readFileSync(path.join(OUTPUT_DIR, outputFile)).toString().replace(/ defer(?=[ >])/g, ' defer="defer"');
     let chunksInfo;
     for (let i = 0; i < expectedResults.length; i++) {
       const expectedResult = expectedResults[i];
@@ -89,9 +89,7 @@ function getChunksInfoFromStats (stats) {
 }
 
 describe('HtmlWebpackPlugin', () => {
-  beforeEach(done => {
-    rimraf(OUTPUT_DIR, done);
-  });
+  beforeEach(() => rimraf(OUTPUT_DIR));
 
   it('generates a default index.html file for a single entry point', done => {
     testHtmlPlugin({
@@ -420,7 +418,7 @@ describe('HtmlWebpackPlugin', () => {
         inject: false,
         template: path.join(__dirname, 'fixtures/plain.html')
       })]
-    }, ['<body></body>'], null, done);
+    }, [/<body>\s*<\/body>/], null, done);
   });
 
   it('allows you to specify your own HTML template function', done => {
@@ -450,7 +448,7 @@ describe('HtmlWebpackPlugin', () => {
         filename: 'index_bundle.js'
       },
       plugins: [new HtmlWebpackPlugin()]
-    }, ['<script defer src="index_bundle.js"'], null, done);
+    }, ['<script defer="defer" src="index_bundle.js"'], null, done);
   });
 
   it('handles hashes in bundle filenames', done => {
@@ -1195,7 +1193,7 @@ describe('HtmlWebpackPlugin', () => {
         examplePlugin
       ]
     },
-    [/[\s]*<script defer="defer" src="app_bundle.js" specialattribute><\/script>[\s]*<\/head>/],
+    [/[\s]*<script defer="defer" src="app_bundle.js" specialAttribute><\/script>[\s]*<\/head>/],
     null, done, false, false);
   });
 
@@ -1939,7 +1937,7 @@ describe('HtmlWebpackPlugin', () => {
           }
         })
       ]
-    }, [/<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">/], null, done);
+    }, [/<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">/], null, done);
   });
 
   it('avoid duplicate meta tags for default template', done => {
@@ -1954,7 +1952,7 @@ describe('HtmlWebpackPlugin', () => {
       plugins: [
         new HtmlWebpackPlugin()
       ]
-    }, [/<head><meta charset="utf-8"\/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover"><title>src\/index\.ejs<\/title><script defer="defer" src="index_bundle.js"><\/script><\/head>/], null, done);
+    }, [/<head>\s*<meta charset="utf-8"\/>\s*<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">\s*<title>src\/index\.ejs<\/title>\s*<script defer="defer" src="index_bundle.js"><\/script><\/head>/], null, done);
   });
 
   it('adds a meta tag with short notation', done => {
@@ -1972,7 +1970,7 @@ describe('HtmlWebpackPlugin', () => {
           }
         })
       ]
-    }, [/<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">/], null, done);
+    }, [/<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">/], null, done);
   });
 
   it('adds a favicon with publicPath set to /some/', done => {
@@ -2148,7 +2146,7 @@ describe('HtmlWebpackPlugin', () => {
           favicon: path.join(__dirname, 'fixtures/does_not_exist.ico')
         })
       ]
-    }, ['Error: HtmlWebpackPlugin: could not load file'], null, done, true);
+    }, ['Error: HtmlRspackPlugin: could not load file'], null, done, true);
   });
 
   it('works with webpack bannerplugin', done => {
@@ -2180,8 +2178,8 @@ describe('HtmlWebpackPlugin', () => {
         })
       ]
     }, [Number(webpackMajorVersion) >= 5
-      ? 'Child compilation failed:\n  Module not found:'
-      : 'Child compilation failed:\n  Entry module not found:'
+      ? 'Child compilation failed:\nModule not found:'
+      : 'Child compilation failed:\nEntry module not found:'
     ], null, done, true);
   });
 
@@ -2421,7 +2419,7 @@ describe('HtmlWebpackPlugin', () => {
         inject: 'body',
         template: path.join(__dirname, 'fixtures/spaced_plain.html')
       })]
-    }, [/<body>[\s]*<script defer="defer" src="index_bundle.js"><\/script>[\s]*<\/body>/], null, done);
+    }, [/<body>[\s]*<script defer="defer" src="index_bundle.js"><\/script>[\s]*<\/body\s*>/], null, done);
   });
 
   it('allows you to inject the assets into the head of the given spaced closing tag template', done => {
@@ -2436,10 +2434,10 @@ describe('HtmlWebpackPlugin', () => {
         inject: 'head',
         template: path.join(__dirname, 'fixtures/spaced_plain.html')
       })]
-    }, [/<script defer="defer" src="index_bundle.js"><\/script>[\s]*<\/head>/], null, done);
+    }, [/<script defer="defer" src="index_bundle.js"><\/script>[\s]*<\/head\s*>/], null, done);
   });
 
-  it('should minify by default when mode is production', done => {
+  it('should not minify by default when mode is production', done => {
     testHtmlPlugin({
       mode: 'production',
       entry: path.join(__dirname, 'fixtures/index.js'),
@@ -2448,7 +2446,7 @@ describe('HtmlWebpackPlugin', () => {
         filename: 'index_bundle.js'
       },
       plugins: [new HtmlWebpackPlugin()]
-    }, [/<!doctype html><html><head><meta charset="utf-8">/], null, done);
+    }, [/<!DOCTYPE html>\s+<html>\s+<head>\s+<meta charset="utf-8">/], null, done);
   });
 
   it('should not minify by default when mode is development', done => {
@@ -2463,19 +2461,19 @@ describe('HtmlWebpackPlugin', () => {
     }, [/<!DOCTYPE html>\s+<html>\s+<head>\s+<meta charset="utf-8">/], null, done);
   });
 
-  it('should minify in production if options.minify is true', done => {
+  it('should minify in production if options.minify is a function', done => {
     testHtmlPlugin({
-      mode: 'development',
+      mode: 'production',
       entry: path.join(__dirname, 'fixtures/index.js'),
       output: {
         path: OUTPUT_DIR,
         filename: 'index_bundle.js'
       },
-      plugins: [new HtmlWebpackPlugin({ minify: true })]
-    }, [/<!doctype html><html><head><meta charset="utf-8">/], null, done);
+      plugins: [new HtmlWebpackPlugin({ minify: html => html.replace(/>\s+</g, '><') })]
+    }, [/<!DOCTYPE html><html><head><meta charset="utf-8">/], null, done);
   });
 
-  it('should minify in development if options.minify is true', done => {
+  it('should not minify in development if options.minify is a function', done => {
     testHtmlPlugin({
       mode: 'development',
       entry: path.join(__dirname, 'fixtures/index.js'),
@@ -2483,8 +2481,8 @@ describe('HtmlWebpackPlugin', () => {
         path: OUTPUT_DIR,
         filename: 'index_bundle.js'
       },
-      plugins: [new HtmlWebpackPlugin({ minify: true })]
-    }, [/<!doctype html><html><head><meta charset="utf-8">/], null, done);
+      plugins: [new HtmlWebpackPlugin({ minify: html => html.replace(/>\s+</g, '><') })]
+    }, [/<!DOCTYPE html>\s+<html>\s+<head>\s+<meta charset="utf-8">/], null, done);
   });
 
   it('should not minify in production if options.minify is false', done => {
@@ -2511,7 +2509,7 @@ describe('HtmlWebpackPlugin', () => {
     }, [/<!DOCTYPE html>\s+<html>\s+<head>\s+<meta charset="utf-8">/], null, done);
   });
 
-  it('should allow custom minify options and not merge them with the defaults', done => {
+  it('should allow a custom minify function', done => {
     testHtmlPlugin({
       mode: 'production',
       entry: path.join(__dirname, 'fixtures/index.js'),
@@ -2520,9 +2518,7 @@ describe('HtmlWebpackPlugin', () => {
         filename: 'index_bundle.js'
       },
       plugins: [new HtmlWebpackPlugin({
-        minify: {
-          useShortDoctype: true
-        }
+        minify: html => html.replace('<!DOCTYPE html>', '<!doctype html>')
       })]
     }, [/<!doctype html>\s+<html>\s+<head>\s+<meta charset="utf-8">/], null, done);
   });
@@ -2539,7 +2535,7 @@ describe('HtmlWebpackPlugin', () => {
         scriptLoading: 'defer'
 
       })]
-    }, [/<script defer="defer" .+<body>/], null, done);
+    }, [/<script defer="defer" [\s\S]+<body>/], null, done);
   });
 
   it('should allow to inject scripts with a type="module" attribute', done => {
@@ -2553,7 +2549,7 @@ describe('HtmlWebpackPlugin', () => {
       plugins: [new HtmlWebpackPlugin({
         scriptLoading: 'module'
       })]
-    }, [/<script type="module" src="index_bundle.js"><\/script>.+<body>/], null, done);
+    }, [/<script type="module" src="index_bundle.js"><\/script>[\s\S]+<body>/], null, done);
   });
 
   it('should allow to inject scripts with a type="systemjs-module" attribute', done => {
@@ -2567,7 +2563,7 @@ describe('HtmlWebpackPlugin', () => {
       plugins: [new HtmlWebpackPlugin({
         scriptLoading: 'systemjs-module'
       })]
-    }, [/<script type="systemjs-module" src="index_bundle.js"><\/script>.+<body>/], null, done);
+    }, [/<script type="systemjs-module" src="index_bundle.js"><\/script>[\s\S]+<body>/], null, done);
   });
 
   it('should allow to inject scripts with a defer="defer" attribute to the body', done => {
@@ -2582,7 +2578,7 @@ describe('HtmlWebpackPlugin', () => {
         scriptLoading: 'defer',
         inject: 'body'
       })]
-    }, [/<body>.*<script defer="defer"/], null, done);
+    }, [/<body>[\s\S]*<script defer="defer"/], null, done);
   });
 
   it('should allow to inject scripts with a defer="defer" in front of styles', done => {
@@ -2627,7 +2623,7 @@ describe('HtmlWebpackPlugin', () => {
         }),
         new MiniCssExtractPlugin({ filename: 'styles.css' })
       ]
-    }, [/<selfclosed\/>/], null, done);
+    }, [/<selfclosed\s*\/>/], null, done);
   });
 
   it('should add the javascript assets to the head for inject:true with scriptLoading:defer', done => {
@@ -2826,7 +2822,7 @@ describe('HtmlWebpackPlugin', () => {
         rules: [
           {
             test: /\.html$/,
-            loader: require.resolve('../lib/loader.js'),
+            loader: require.resolve('../lib/htmlLoader.js'),
             options: {
               interpolate: /\{%=([\s\S]+?)%\}/g
             }

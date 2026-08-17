@@ -7,9 +7,9 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const rimraf = require('rimraf');
+const { rimraf } = require('rimraf');
 const WebpackRecompilationSimulator = require('webpack-recompilation-simulator');
-const HtmlWebpackPlugin = require('../index.js');
+const HtmlWebpackPlugin = require('../lib/index.js');
 
 const OUTPUT_DIR = path.join(__dirname, '../dist/caching-spec');
 
@@ -27,7 +27,7 @@ function setUpCompiler (htmlWebpackPlugin) {
       rules: [
         {
           test: /\.html$/,
-          loader: require.resolve('../lib/loader.js'),
+          loader: require.resolve('../lib/htmlLoader.js'),
           options: {
             force: true
           }
@@ -78,9 +78,7 @@ function expectNoErrors (stats) {
 }
 
 describe('HtmlWebpackPluginCaching', () => {
-  beforeEach(done => {
-    rimraf(OUTPUT_DIR, done);
-  });
+  beforeEach(() => rimraf(OUTPUT_DIR));
 
   it('should compile nothing if no file was changed', done => {
     const template = path.join(__dirname, 'fixtures/plain.html');
@@ -109,7 +107,7 @@ describe('HtmlWebpackPluginCaching', () => {
         expect(htmlWebpackPlugin.childCompilerHash)
           .toBe(childCompilerHash);
       })
-      .then(done);
+      .then(() => done(), done);
   });
 
   it('should not compile the webpack html file if only a javascript file was changed', done => {
@@ -137,7 +135,7 @@ describe('HtmlWebpackPluginCaching', () => {
         expect(htmlWebpackPlugin.childCompilerHash)
           .toBe(childCompilerHash);
       })
-      .then(done);
+      .then(() => done(), done);
   });
 
   it('should compile the webpack html file even if only a javascript file was changed if caching is disabled', done => {
@@ -167,7 +165,7 @@ describe('HtmlWebpackPluginCaching', () => {
         expect(htmlWebpackPlugin.childCompilerHash)
           .toBe(childCompilerHash);
       })
-      .then(done);
+      .then(() => done(), done);
   });
 
   it('should compile the webpack html if the template file was changed', done => {
@@ -201,7 +199,7 @@ describe('HtmlWebpackPluginCaching', () => {
         expect(compiledSource)
           .not.toBe(compiledSourceSecondRun);
       })
-      .then(done);
+      .then(() => done(), done);
   });
 
   it('should not slow down linear (10 plugins should not take 2.5 as much time as a 1 plugin)', done => {
@@ -241,7 +239,7 @@ describe('HtmlWebpackPluginCaching', () => {
 
         expect(speedComarision).toBeLessThan(250);
         done();
-      });
+      }).catch(done);
   });
 
   it('should keep watching the webpack html if only a js file was changed', done => {
@@ -286,6 +284,6 @@ describe('HtmlWebpackPluginCaching', () => {
           .toBe(3);
       })
       .then(() => compiler.stopWatching())
-      .then(done);
+      .then(() => done(), done);
   });
 });

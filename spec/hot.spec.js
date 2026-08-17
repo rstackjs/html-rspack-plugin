@@ -8,25 +8,23 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
-const rimraf = require('rimraf');
+const { rimraf } = require('rimraf');
 const WebpackRecompilationSimulator = require('webpack-recompilation-simulator');
-const HtmlWebpackPlugin = require('../index.js');
+const HtmlWebpackPlugin = require('../lib/index.js');
 
 const OUTPUT_DIR = path.join(__dirname, '../dist/caching-spec');
 
 // The WebpackRecompilationSimulator uses a loader to redirect the file writes to a temp directory.
 // As this would disable the default loader behaviour by design it has to be run in force mode
-const DEFAULT_LOADER = require.resolve('../lib/loader.js') + '?force';
-const DEFAULT_TEMPLATE = DEFAULT_LOADER + '!' + require.resolve('../default_index.ejs');
+const DEFAULT_LOADER = require.resolve('../lib/htmlLoader.js') + '?force';
+const DEFAULT_TEMPLATE = DEFAULT_LOADER + '!' + require.resolve('../lib/default_index.ejs');
 
 jest.setTimeout(30000);
 
 process.on('unhandledRejection', r => console.log(r));
 
 describe('HtmlWebpackPluginHMR', () => {
-  beforeEach(done => {
-    rimraf(OUTPUT_DIR, done);
-  });
+  beforeEach(() => rimraf(OUTPUT_DIR));
 
   it('should not cause errors for the main compilation if hot-reload is active', () => {
     const config = {
