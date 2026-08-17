@@ -318,6 +318,20 @@ For the default template the html-rspack-plugin will already provide a default f
 
 Please take a look at this well maintained list of almost all [possible meta tags](https://github.com/joshbuchea/HEAD#meta).
 
+#### charset meta tag
+
+Use object notation to add a character encoding declaration:
+
+```js
+new HtmlRspackPlugin({
+  meta: {
+    charset: { charset: 'utf-8' },
+  },
+});
+```
+
+With automatic injection enabled, a generated `charset` meta tag is placed immediately after the opening `<head>` tag so it is not pushed behind other head content. If the template already contains a `charset` meta tag, the generated declaration is omitted.
+
 #### name/content meta tags
 
 Most meta tags are configured by setting a `name` and a `content` attribute.  
