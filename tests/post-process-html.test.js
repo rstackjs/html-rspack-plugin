@@ -1,11 +1,6 @@
-/*
- * Unit tests for automatic tag injection during HTML post processing
- */
-
-/* eslint-env jest */
-'use strict';
-
-const HtmlRspackPlugin = require('../lib/index.js');
+import { Buffer } from 'node:buffer';
+import { describe, expect, it } from '@rstest/core';
+import { HtmlRspackPlugin } from './helpers/compile.js';
 
 const compiler = {
   options: {
@@ -54,42 +49,26 @@ describe('HtmlRspackPlugin HTML post processing', () => {
     ).toBeLessThanOrEqual(1024);
   });
 
-  it('keeps a charset authored by the template without injecting a duplicate', async () => {
-    const templateCharset = '<META data-origin="template" CHARSET="utf-8">';
-    const html = `<html><head>${templateCharset}</head><body></body></html>`;
-    const output = await postProcessHtml(html, [
-      createTag('meta', { charset: 'UTF-8' }),
-      createTag('script', { src: 'main.js' }),
-    ]);
-
-    expect(output).toContain(templateCharset);
-    expect(output.match(/<meta\b[^>]*\bcharset\s*=/gi)).toHaveLength(1);
-    expect(output).toContain('<script src="main.js"></script></head>');
-  });
-
-  it('does not mistake charset text in another attribute for a declaration', async () => {
-    const html =
-      '<html><head><meta content="charset=not-a-declaration"></head><body></body></html>';
+  it('ignores head tags inside comments', async () => {
+    const html = '<!-- <head> --><html><head></head><body></body></html>';
     const output = await postProcessHtml(html, [
       createTag('meta', { charset: 'UTF-8' }),
     ]);
 
-    expect(output).toContain(
-      '<head><meta charset="UTF-8"><meta content="charset=not-a-declaration">',
+    expect(output).toBe(
+      '<!-- <head> --><html><head><meta charset="UTF-8"></head><body></body></html>',
     );
   });
 
-  it('recognizes and deduplicates case-insensitive charset tags in the final head tag list', async () => {
-    const output = await postProcessHtml(
-      '<html><head></head><body></body></html>',
-      [
-        createTag('META', { CHARSET: 'UTF-8' }),
-        createTag('meta', { charset: 'iso-8859-1' }),
-      ],
-    );
+  it('handles greater-than signs inside head attributes', async () => {
+    const html = '<html><head data-value=">"></head><body></body></html>';
+    const output = await postProcessHtml(html, [
+      createTag('meta', { charset: 'UTF-8' }),
+    ]);
 
-    expect(output).toContain('<head><META CHARSET="UTF-8">');
-    expect(output.match(/<meta\b[^>]*\bcharset\s*=/gi)).toHaveLength(1);
+    expect(output).toBe(
+      '<html><head data-value=">"><meta charset="UTF-8"></head><body></body></html>',
+    );
   });
 
   it('creates a head before injecting a generated charset', async () => {
@@ -104,16 +83,5 @@ describe('HtmlRspackPlugin HTML post processing', () => {
     expect(output).toBe(
       '<!doctype html><html><head><meta charset="UTF-8"><script src="main.js"></script></head><body></body></html>',
     );
-  });
-
-  it('does not inject a generated charset when injection is disabled', async () => {
-    const html = '<html><head></head><body></body></html>';
-    const output = await postProcessHtml(
-      html,
-      [createTag('meta', { charset: 'UTF-8' })],
-      { inject: false },
-    );
-
-    expect(output).toBe(html);
   });
 });

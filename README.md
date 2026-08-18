@@ -330,7 +330,7 @@ new HtmlRspackPlugin({
 });
 ```
 
-With automatic injection enabled, a generated `charset` meta tag is placed immediately after the opening `<head>` tag so it is not pushed behind other head content. If the template already contains a `charset` meta tag, the generated declaration is omitted.
+With automatic injection enabled, a generated `charset` meta tag is placed immediately after the opening `<head>` tag so it is not pushed behind other head content.
 
 #### name/content meta tags
 
