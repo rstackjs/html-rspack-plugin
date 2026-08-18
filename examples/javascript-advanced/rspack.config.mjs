@@ -1,12 +1,12 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('../..');
-var rspackMajorVersion = require('@rspack/core').rspackVersion.split('.')[0];
+import { getExamplePaths, HtmlRspackPlugin } from '../config.mjs';
 
-module.exports = {
-  context: __dirname,
+const { context, outputPath } = getExamplePaths(import.meta.url);
+
+export default {
+  context,
   entry: './example.js',
   output: {
-    path: path.join(__dirname, 'dist/rspack-' + rspackMajorVersion),
+    path: outputPath,
     publicPath: '',
     filename: 'bundle.js',
   },
@@ -22,7 +22,7 @@ module.exports = {
   },
   devtool: 'eval',
   plugins: [
-    new HtmlWebpackPlugin({
+    new HtmlRspackPlugin({
       template: 'template.js',
     }),
   ],

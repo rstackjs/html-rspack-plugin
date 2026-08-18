@@ -1,15 +1,15 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('../..');
-var rspackMajorVersion = require('@rspack/core').rspackVersion.split('.')[0];
+import { getExamplePaths, HtmlRspackPlugin } from '../config.mjs';
 
-module.exports = {
-  context: __dirname,
+const { context, outputPath } = getExamplePaths(import.meta.url);
+
+export default {
+  context,
   entry: {
     first: './first.js',
     second: './second.js',
   },
   output: {
-    path: path.join(__dirname, 'dist/rspack-' + rspackMajorVersion),
+    path: outputPath,
     publicPath: '',
     filename: '[name].js',
   },
@@ -23,7 +23,7 @@ module.exports = {
     css: true,
   },
   plugins: [
-    new HtmlWebpackPlugin({
+    new HtmlRspackPlugin({
       filename: '[name].html',
     }),
   ],

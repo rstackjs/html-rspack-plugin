@@ -1,16 +1,17 @@
-var path = require('path');
-var HtmlWebpackPlugin = require('../..');
-var rspackMajorVersion = require('@rspack/core').rspackVersion.split('.')[0];
-module.exports = {
-  context: __dirname,
+import { getExamplePaths, HtmlRspackPlugin } from '../config.mjs';
+
+const { context, outputPath } = getExamplePaths(import.meta.url);
+
+export default {
+  context,
   entry: './example.js',
   output: {
-    path: path.join(__dirname, 'dist/rspack-' + rspackMajorVersion),
+    path: outputPath,
     publicPath: '',
     filename: 'bundle.js',
   },
   plugins: [
-    new HtmlWebpackPlugin({
+    new HtmlRspackPlugin({
       // If you pass a plain object, it will be merged with the default values
       // (New in version 4)
       templateParameters: {

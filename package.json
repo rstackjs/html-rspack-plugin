@@ -14,7 +14,7 @@
     "bump": "npx bumpp",
     "posttest": "tsc",
     "commit": "git-cz",
-    "build-examples": "node examples/build-examples.js",
+    "build-examples": "node examples/build-examples.mjs",
     "test": "rstest run",
     "test-watch": "rstest --watch",
     "lint": "rslint",

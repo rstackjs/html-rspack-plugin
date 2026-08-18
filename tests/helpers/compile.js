@@ -1,15 +1,11 @@
 import { Buffer } from 'node:buffer';
 import fs from 'node:fs';
-import { createRequire } from 'node:module';
 import os from 'node:os';
 import path from 'node:path';
-import process from 'node:process';
 import { rspack } from '@rspack/core';
+import HtmlRspackPlugin from '../../lib/index.js';
 
-const require = createRequire(import.meta.url);
-export const HtmlRspackPlugin = require(
-  path.resolve(process.cwd(), 'lib/index.js'),
-);
+export { HtmlRspackPlugin };
 
 export function createProject(files = {}) {
   const context = fs.mkdtempSync(path.join(os.tmpdir(), 'html-rspack-plugin-'));
