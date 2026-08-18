@@ -1,6 +1,7 @@
 node_modules/
 /dist/
 /coverage/
+/examples/*/dist/
 npm-debug.*.log
 yarn.lock
 package-lock.json
