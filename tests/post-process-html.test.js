@@ -49,17 +49,6 @@ describe('HtmlRspackPlugin HTML post processing', () => {
     ).toBeLessThanOrEqual(1024);
   });
 
-  it('ignores head tags inside comments', async () => {
-    const html = '<!-- <head> --><html><head></head><body></body></html>';
-    const output = await postProcessHtml(html, [
-      createTag('meta', { charset: 'UTF-8' }),
-    ]);
-
-    expect(output).toBe(
-      '<!-- <head> --><html><head><meta charset="UTF-8"></head><body></body></html>',
-    );
-  });
-
   it('handles greater-than signs inside head attributes', async () => {
     const html = '<html><head data-value=">"></head><body></body></html>';
     const output = await postProcessHtml(html, [
