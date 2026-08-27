@@ -9,16 +9,9 @@ export default defineConfig([
     },
   },
   {
-    files: ['lib/cached-child-compiler.js'],
-    rules: {
-      'no-undef': 'off',
-    },
-  },
-  {
     files: ['examples/**/*', 'spec/**/*'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
-      'no-undef': 'off',
     },
   },
   {
