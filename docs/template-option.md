@@ -19,13 +19,14 @@ There are three ways to set the loader:
 
 By default (if you don't specify any loader in any way) a [fallback ejs loader](https://github.com/jantimon/html-webpack-plugin/blob/master/lib/loader.js) kicks in. Please note that this loader does not support the full ejs syntax as it is based on [lodash template](https://lodash.com/docs/#template).
 
+<!-- prettier-ignore -->
 ```js
 {
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
-    }),
-  ];
+      template: 'src/index.html'
+    })
+  ]
 }
 ```
 

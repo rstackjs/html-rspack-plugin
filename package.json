@@ -15,7 +15,6 @@
     "bump": "pnpx bumpp",
     "check": "rs check",
     "commit": "git-cz",
-    "fix": "rs lint --fix && rs fmt",
     "format": "rs fmt",
     "lint": "rs lint",
     "posttest": "tsc",
