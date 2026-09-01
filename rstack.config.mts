@@ -1,6 +1,35 @@
-import { defineConfig, js, ts } from '@rslint/core';
+// Configuration guide: https://rstack.rs/config
+import path from 'node:path';
+import { define } from 'rstack';
 
-export default defineConfig([
+const pluginPath = path.resolve(import.meta.dirname, 'lib/index.js');
+
+define.test({
+  include: ['tests/**/*.test.js'],
+  testEnvironment: 'node',
+  testTimeout: 30_000,
+  restoreMocks: true,
+  output: {
+    externals: {
+      '../../lib/index.js': `commonjs ${pluginPath}`,
+    },
+  },
+  pool: {
+    maxWorkers: 1,
+  },
+});
+
+define.fmt({
+  singleQuote: true,
+  proseWrap: 'never',
+});
+
+define.staged({
+  '*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}': ['rs lint', 'rs fmt'],
+  '*.{json,md,mdx,css,scss,less,html,yml,yaml}': 'rs fmt',
+});
+
+define.lint(({ js, ts }) => [
   js.configs.recommended,
   ts.configs.recommended,
   {

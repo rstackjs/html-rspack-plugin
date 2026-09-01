@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { describe, expect, it, rs } from '@rstest/core';
+import { describe, expect, it, rs } from 'rstack/test';
 import {
   closeCompiler,
   createCompiler,

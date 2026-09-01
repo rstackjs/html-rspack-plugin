@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer';
-import { describe, expect, it } from '@rstest/core';
+import { describe, expect, it } from 'rstack/test';
 import { compile, HtmlRspackPlugin } from './helpers/compile.js';
 
 describe('HtmlRspackPlugin', () => {
