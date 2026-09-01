@@ -11,27 +11,28 @@
     "typings.d.ts"
   ],
   "scripts": {
-    "bump": "npx bumpp",
-    "posttest": "tsc",
-    "commit": "git-cz",
     "build-examples": "node examples/build-examples.mjs",
-    "test": "rstest run",
-    "test-watch": "rstest --watch",
-    "lint": "rslint",
-    "lint:write": "rslint --fix"
+    "bump": "pnpx bumpp",
+    "check": "rs check",
+    "commit": "git-cz",
+    "fix": "rs lint --fix && rs fmt",
+    "format": "rs fmt",
+    "lint": "rs lint",
+    "posttest": "tsc",
+    "prepare": "rs hooks",
+    "test": "rs test run",
+    "test:watch": "rs test --watch"
   },
   "packageManager": "pnpm@11.22.0",
   "dependencies": {
     "@rspack/lite-tapable": "^1.1.5"
   },
   "devDependencies": {
-    "@rslint/core": "^0.8.2",
     "@rspack/core": "^1.7.2",
-    "@rstest/core": "^0.8.5",
     "@types/node": "^24.13.3",
-    "prettier": "^3.9.6",
     "pug": "3.0.4",
     "pug-loader": "2.4.0",
+    "rstack": "^0.7.1",
     "typescript": "7.0.2"
   },
   "peerDependencies": {

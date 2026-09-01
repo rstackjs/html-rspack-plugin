@@ -1,5 +1,11 @@
 minimumReleaseAgeExclude:
   - '@rslint/*'
+  - '@rspack/*'
+  - '@rstackjs/*'
+  - '@rstest/*'
+  - '@typescript/*'
+  - rstack
+  - typescript
 
 allowBuilds:
   core-js: false
