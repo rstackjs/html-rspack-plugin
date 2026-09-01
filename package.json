@@ -22,12 +22,12 @@
     "test": "rs test run",
     "test:watch": "rs test --watch"
   },
-  "packageManager": "pnpm@11.22.0",
+  "packageManager": "pnpm@11.25.0",
   "dependencies": {
     "@rspack/lite-tapable": "^1.1.5"
   },
   "devDependencies": {
-    "@rspack/core": "^1.7.2",
+    "@rspack/core": "^1.7.12",
     "@types/node": "^24.13.3",
     "pug": "3.0.4",
     "pug-loader": "2.4.0",
