@@ -45,13 +45,6 @@ define.lint(({ js, ts }) => [
   },
   {
     files: ['lib/**/*.js'],
-    languageOptions: {
-      globals: {
-        __dirname: 'readonly',
-        global: 'readonly',
-        require: 'readonly',
-      },
-    },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
