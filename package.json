@@ -17,9 +17,9 @@
     "commit": "git-cz",
     "format": "rs fmt",
     "lint": "rs lint",
-    "posttest": "tsc",
     "prepare": "rs hooks",
-    "test": "rs test run",
+    "test": "rs test",
+    "test:type": "tsc --noEmit",
     "test:watch": "rs test --watch"
   },
   "packageManager": "pnpm@11.27.0",
