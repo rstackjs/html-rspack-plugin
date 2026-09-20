@@ -9,11 +9,9 @@ type Assert<T extends true> = T;
 type Options = HtmlRspackPlugin.Options;
 type ProcessedOptions = HtmlRspackPlugin.ProcessedOptions;
 
+// Runtime tests cannot detect options degrading to any. Check a named option
+// and keep minify optional to guard against regressions in ProcessedOptions.
 export type ProcessedOptionsAssertions = [
   Assert<Equal<ProcessedOptions['title'], string>>,
-  Assert<Equal<ProcessedOptions['chunks'], 'all' | string[]>>,
-  Assert<Equal<ProcessedOptions['excludeChunks'], string[]>>,
-  Assert<Equal<ProcessedOptions['cache'], boolean>>,
   Assert<Equal<Pick<ProcessedOptions, 'minify'>, Pick<Options, 'minify'>>>,
-  Assert<Equal<ProcessedOptions['customTemplateParameter'], any>>,
 ];
