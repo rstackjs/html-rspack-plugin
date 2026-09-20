@@ -18,7 +18,8 @@
     "format": "rs fmt",
     "lint": "rs lint",
     "prepare": "rs hooks",
-    "test": "tsc && rs test run",
+    "test": "rs test",
+    "test:type": "tsc --noEmit",
     "test:watch": "rs test --watch"
   },
   "packageManager": "pnpm@11.27.0",

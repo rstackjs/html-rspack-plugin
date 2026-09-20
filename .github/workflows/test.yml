@@ -34,3 +34,6 @@ jobs:
 
       - name: Run Test
         run: node --run test
+
+      - name: Run Type Test
+        run: node --run test:type
