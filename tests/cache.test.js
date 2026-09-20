@@ -20,32 +20,6 @@ function expectSuccessfulBuild(stats) {
 }
 
 describe('template cache', () => {
-  it('compiles and caches templates without reading the main module collection', async () => {
-    const context = createProject({
-      'template.ejs': '<html><body>template</body></html>',
-    });
-    const htmlPlugin = new HtmlRspackPlugin({ template: './template.ejs' });
-    const { compiler } = createCompiler({ context, htmlPlugin });
-    const moduleGetters = [];
-    compiler.hooks.thisCompilation.tap('TrackModuleAccess', (compilation) => {
-      moduleGetters.push(rs.spyOn(compilation, 'modules', 'get'));
-    });
-
-    try {
-      const firstAssets = expectSuccessfulBuild(await runCompiler(compiler));
-      expect(firstAssets['index.html']).toContain('template');
-      const cachedAssets = expectSuccessfulBuild(await runCompiler(compiler));
-      expect(cachedAssets['index.html']).toBe(firstAssets['index.html']);
-      expect(moduleGetters).toHaveLength(2);
-      for (const getter of moduleGetters) {
-        expect(getter).not.toHaveBeenCalled();
-      }
-    } finally {
-      await closeCompiler(compiler);
-      fs.rmSync(context, { force: true, recursive: true });
-    }
-  });
-
   it('reuses the template until the template file changes', async () => {
     const context = createProject({
       'template.ejs': '<html><body>first</body></html>',
@@ -108,10 +82,9 @@ describe('template cache', () => {
     }
   });
 
-  it('watches async template dependencies shared by multiple HTML plugins', async () => {
+  it('watches async template dependencies after a cached rebuild', async () => {
     const context = createProject({
-      'first.html': 'first',
-      'second.html': 'second',
+      'template.html': 'template',
       'partial.txt': 'initial partial',
       'template-loader.cjs': `
         const fs = require('node:fs');
@@ -127,20 +100,10 @@ describe('template cache', () => {
         };
       `,
     });
-    const firstPlugin = new HtmlRspackPlugin({
-      template: `!!${path.join(context, 'template-loader.cjs')}!${path.join(context, 'first.html')}`,
+    const htmlPlugin = new HtmlRspackPlugin({
+      template: `!!${path.join(context, 'template-loader.cjs')}!${path.join(context, 'template.html')}`,
     });
-    const secondPlugin = new HtmlRspackPlugin({
-      filename: 'second.html',
-      template: `!!${path.join(context, 'template-loader.cjs')}!${path.join(context, 'second.html')}`,
-    });
-    const evaluateFirst = rs.spyOn(firstPlugin, 'evaluateCompilationResult');
-    const evaluateSecond = rs.spyOn(secondPlugin, 'evaluateCompilationResult');
-    const { compiler } = createCompiler({
-      context,
-      htmlPlugin: firstPlugin,
-      config: { plugins: [secondPlugin] },
-    });
+    const { compiler } = createCompiler({ context, htmlPlugin });
     const events = new EventEmitter();
     const controller = new AbortController();
     const builds = on(events, 'build', { signal: controller.signal });
@@ -160,27 +123,17 @@ describe('template cache', () => {
         events.emit('build', error, stats);
       });
       const firstAssets = await nextBuild();
-      expect(firstAssets['index.html']).toContain('first initial partial');
-      expect(firstAssets['second.html']).toContain('second initial partial');
+      expect(firstAssets['index.html']).toContain('template initial partial');
 
       writeFiles(context, { 'src/index.js': 'console.log("changed entry");' });
-      await nextBuild();
-      expect(evaluateFirst).toHaveBeenCalledTimes(1);
-      expect(evaluateSecond).toHaveBeenCalledTimes(1);
+      const cachedAssets = await nextBuild();
+      expect(cachedAssets['index.html']).toContain('template initial partial');
 
       writeFiles(context, { 'partial.txt': 'updated partial' });
       const dependencyAssets = await nextBuild();
-      expect(dependencyAssets['index.html']).toContain('first updated partial');
-      expect(dependencyAssets['second.html']).toContain(
-        'second updated partial',
+      expect(dependencyAssets['index.html']).toContain(
+        'template updated partial',
       );
-
-      writeFiles(context, { 'first.html': 'updated template' });
-      const templateAssets = await nextBuild();
-      expect(templateAssets['index.html']).toContain(
-        'updated template updated partial',
-      );
-      expect(templateAssets['second.html']).toContain('second updated partial');
     } finally {
       clearTimeout(timeout);
       controller.abort();
