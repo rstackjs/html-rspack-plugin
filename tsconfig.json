@@ -5,6 +5,7 @@
     "checkJs": true /* Report errors in .js files. */,
     "noEmit": true /* Do not emit outputs. */,
     "lib": ["es2017"],
+    "types": ["node"],
 
     /* Strict Type-Checking Options */
     "strict": true /* Enable all strict type-checking options. */,
@@ -30,6 +31,13 @@
     "skipLibCheck": true,
     "useUnknownInCatchVariables": false
   },
-  "types": ["node"],
-  "exclude": ["node_modules", "spec", "tests", "examples", "dist", "coverage"]
+  "exclude": [
+    "node_modules",
+    "spec",
+    "tests",
+    "examples",
+    "dist",
+    "coverage",
+    "rstack.config.mts"
+  ]
 }
