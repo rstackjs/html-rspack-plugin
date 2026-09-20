@@ -19,53 +19,38 @@ function expectSuccessfulBuild(stats) {
 }
 
 describe('template cache', () => {
-  it('reuses the template in watch mode until the template file changes', async () => {
+  it('reuses the template until the template file changes', async () => {
     const context = createProject({
       'template.ejs': '<html><body>first</body></html>',
     });
     const htmlPlugin = new HtmlRspackPlugin({ template: './template.ejs' });
     const evaluateTemplate = rs.spyOn(htmlPlugin, 'evaluateCompilationResult');
     const { compiler } = createCompiler({ context, htmlPlugin });
-    const events = new EventEmitter();
-    const builds = on(events, 'build', { signal: AbortSignal.timeout(10_000) });
-    const nextBuild = async () => {
-      const {
-        value: [error, stats],
-      } = await builds.next();
-      if (error) throw error;
-      // Watchpack starts watching on the next tick after the build callback.
-      await setImmediate();
-      return expectSuccessfulBuild(stats);
-    };
 
     try {
-      const watching = compiler.watch(
-        { aggregateTimeout: 20, poll: 20 },
-        (error, stats) => events.emit('build', error, stats),
-      );
-      const firstAssets = await nextBuild();
+      const firstAssets = expectSuccessfulBuild(await runCompiler(compiler));
       expect(firstAssets['index.html']).toContain('first');
       expect(evaluateTemplate).toHaveBeenCalledTimes(1);
 
-      watching.invalidate();
-      const unchangedAssets = await nextBuild();
+      const unchangedAssets = expectSuccessfulBuild(
+        await runCompiler(compiler),
+      );
       expect(unchangedAssets['index.html']).toContain('first');
       expect(evaluateTemplate).toHaveBeenCalledTimes(1);
 
       writeFiles(context, {
         'src/index.js': 'console.log("changed entry");',
       });
-      await nextBuild();
+      expectSuccessfulBuild(await runCompiler(compiler));
       expect(evaluateTemplate).toHaveBeenCalledTimes(1);
 
       writeFiles(context, {
         'template.ejs': '<html><body>second</body></html>',
       });
-      const changedAssets = await nextBuild();
+      const changedAssets = expectSuccessfulBuild(await runCompiler(compiler));
       expect(changedAssets['index.html']).toContain('second');
       expect(evaluateTemplate).toHaveBeenCalledTimes(2);
     } finally {
-      await builds.return();
       await closeCompiler(compiler);
       fs.rmSync(context, { force: true, recursive: true });
     }
@@ -91,6 +76,44 @@ describe('template cache', () => {
 
       expect(evaluateTemplate).toHaveBeenCalledTimes(2);
     } finally {
+      await closeCompiler(compiler);
+      fs.rmSync(context, { force: true, recursive: true });
+    }
+  });
+
+  it('watches template changes after a cached rebuild', async () => {
+    const context = createProject({
+      'template.ejs': '<html><body>first</body></html>',
+    });
+    const htmlPlugin = new HtmlRspackPlugin({ template: './template.ejs' });
+    const { compiler } = createCompiler({ context, htmlPlugin });
+    const events = new EventEmitter();
+    const builds = on(events, 'build', { signal: AbortSignal.timeout(10_000) });
+    const nextBuild = async () => {
+      const {
+        value: [error, stats],
+      } = await builds.next();
+      if (error) throw error;
+      // Watchpack starts watching on the next tick after the build callback.
+      await setImmediate();
+      return expectSuccessfulBuild(stats);
+    };
+
+    try {
+      const watching = compiler.watch(
+        { aggregateTimeout: 20, poll: 20 },
+        (error, stats) => events.emit('build', error, stats),
+      );
+      await nextBuild();
+      watching.invalidate();
+      await nextBuild();
+      writeFiles(context, {
+        'template.ejs': '<html><body>second</body></html>',
+      });
+      const assets = await nextBuild();
+      expect(assets['index.html']).toContain('second');
+    } finally {
+      await builds.return();
       await closeCompiler(compiler);
       fs.rmSync(context, { force: true, recursive: true });
     }
