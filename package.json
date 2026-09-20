@@ -18,7 +18,7 @@
     "format": "rs fmt",
     "lint": "rs lint",
     "prepare": "rs hooks",
-    "test": "rs test run && tsc",
+    "test": "tsc && rs test run",
     "test:watch": "rs test --watch"
   },
   "packageManager": "pnpm@11.27.0",
