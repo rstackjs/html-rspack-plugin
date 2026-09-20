@@ -171,8 +171,10 @@ declare namespace HtmlRspackPlugin {
   /**
    * The plugin options after adding default values
    */
-  type ProcessedOptions = Required<Omit<Options, 'minify'>> &
-    Pick<Options, 'minify'>;
+  type ProcessedOptions = {
+    // Preserve named properties alongside the index signature in Options.
+    [K in keyof Options as Exclude<K, 'minify'>]-?: Options[K];
+  } & Pick<Options, 'minify'>;
 
   /**
    * The values which are available during template execution
