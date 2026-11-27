@@ -1,11 +1,18 @@
 minimumReleaseAgeExclude:
+  - '@rslib/*'
   - '@rslint/*'
   - '@rspack/*'
   - '@rstackjs/*'
   - '@rstest/*'
   - '@typescript/*'
+  - 'rsbuild-plugin-*'
   - rstack
   - typescript
 
 allowBuilds:
   core-js: false
+
+permissions:
+  rstack:
+    skills:
+      - rstack-cli-docs
